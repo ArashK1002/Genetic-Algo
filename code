@@ -1,0 +1,55 @@
+import random
+import math
+
+# Define the peak function
+def peak_function(x, y):
+    return (((1-x)**2)*math.exp(-(x**2)-(y+1)**2))-((x-x**3-y**3)*math.exp(-(x**2)-(y**2)))
+
+# Genetic algorithm parameters
+N = 60          # Population size
+Pc = 0.7        # Crossover probability
+Pm = 0.1        # Mutation probability
+num_generations = 20
+
+# Define the range for x and y
+x_range = (-3, 3)
+y_range = (-3, 3)
+
+# Initialize the population with random individuals
+population = [(random.uniform(x_range[0], x_range[1]), random.uniform(y_range[0], y_range[1])) for _ in range(N)]
+
+# Main loop for the genetic algorithm
+for generation in range(num_generations):
+    # Evaluate the fitness of each individual in the population
+    fitness = [peak_function(x, y) for x, y in population]
+
+    # Select the top-performing individuals to be parents
+    sorted_population = [x for _, x in sorted(zip(fitness, population), reverse=True)]
+    parents = sorted_population[:int(N/2)]
+
+    # Perform crossover to create new individuals
+    children = []
+    for i in range(N - len(parents)):
+        parent1, parent2 = random.choices(parents, k=2)
+        crossover_point = random.randint(0, 1)
+        child = (parent1[0], parent2[1]) if crossover_point == 0 else (parent2[0], parent1[1])
+        children.append(child)
+
+    # Apply mutation to some individuals
+    for i in range(N):
+        if random.random() < Pm:
+            population[i] = (random.uniform(x_range[0], x_range[1]), random.uniform(y_range[0], y_range[1]))
+        else:
+            population[i] = children[i % len(children)]
+
+    # Report the progress
+    best_fitness = max(fitness)
+    print(f"Generation {generation + 1}: Best fitness = {best_fitness}")
+
+# Find the best individual in the final population
+best_individual = sorted(population, key=lambda ind: peak_function(ind[0], ind[1]), reverse=True)[0]
+best_fitness = peak_function(best_individual[0], best_individual[1])
+
+print("\nOptimal Solution:")
+print(f"x = {best_individual[0]}, y = {best_individual[1]}")
+print(f"Peak value = {best_fitness}")
