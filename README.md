@@ -120,11 +120,7 @@ A one-point crossover is performed (swapping either the x-coordinate or y-coordi
 P 
 m
 ​
- , an individual undergoes mutation by assigning new random values for 
-𝑥
-x and 
-𝑦
-y.
+ , an individual undergoes mutation by assigning new random values for x and y.
 Population Update
 
 The next generation consists of mutated offspring and selected parents.
@@ -133,11 +129,7 @@ Progress Reporting
 The best fitness value in each generation is printed.
 5. Finding the Optimal Solution
 At the end of the evolution process, the best individual in the final population is selected.
-The corresponding 
-𝑥
-,
-𝑦
-x,y values and function output are displayed.
+The corresponding x,y values and function output are displayed.
 Possible Improvements
 Tournament Selection or Roulette Wheel Selection: More sophisticated selection methods could be used.
 Adaptive Mutation Rate: Adjusting 
